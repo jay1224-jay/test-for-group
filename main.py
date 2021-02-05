@@ -11,11 +11,11 @@ class main():
         self.tk.geometry('800x800')
         self.tk.config(bg=self.bg)
         self.tk.attributes('-fullscreen', True)
-        self.tk.bind('<Control_L><t>', lambda event :self.tk.attributes('-fullscreen', 0))
-        Label(self.tk, text='Press control+t for \nturn off fullscreen mode.').place(x=self.tk.winfo_screenwidth()-200, y=10)
+        self.tk.bind('<Escape>', lambda event :self.tk.attributes('-fullscreen', 0))
+        Button(self.tk, text='Press "Esc" for turn off \nfullscreen mode.(or click me)', command=lambda :self.tk.attributes('-fullscreen', 0)).place(x=self.tk.winfo_screenwidth()-200, y=10)
         self.main = Frame(self.tk, bg=self.bg)
 
-        self.help_img = [PhotoImage(file='img/help_1.png')]
+        self.help_img = [PhotoImage(file='img/help_1.png'), PhotoImage(file='img/ic2.png')]
 
         self.help_win = Toplevel()
         
@@ -34,7 +34,7 @@ class main():
         self.skill_fr = Frame(self.tk, bg='#404040')
         Label(self.skill_fr, text='Skill', font=('微軟正黑體', 18), bg='#404040', fg='white').grid(row=0, column=0, columnspan=2)
         Label(self.skill_fr, text='1. You can right-click on your qf file button, \nand then show the menu.', font=('微軟正黑體', 13), bg='#404040', fg='white').grid(row=1, column=0)
-        Label(self.skill_fr, image=self.help_img[0]).grid(row=1, column=1)
+        Label(self.skill_fr, image=self.help_img[0], bd=0).grid(row=1, column=1)
         #Label(self.skill_fr, text=), Label(self.skill_fr, image=)
         #Label(self.skill_fr, text="2. You can type a number which is \nbigger than any existing number.").grid(row=2, column=0)
         Label(self.skill_fr, text="2. You can type a number which is \nbigger than any existing number.", bg='#404040', fg='white', font=('微軟正黑體', 13)).grid(row=2, column=0, pady=10)
@@ -52,7 +52,11 @@ class main():
         self.test.add_separator()
         self.test.add_command(label='Skill', command=self.show_skill)
 
-        Label(self.main, text='問鼎中原', font=('', 20)).pack()
+        self.contact = Menu(self.help)
+        self.help.add_cascade(label='Contact', menu=self.contact)
+        self.contact.add_command(label='Gmail', command=lambda:self.show_help('', 'Gmail : ujprogram1224@gmail.com'))
+
+        Label(self.main, image=self.help_img[1], bd=0).pack()
         Button(self.main, text='open file', 
             command=lambda: self.open_qf(filedialog.askopenfilename(initialdir=os.path.expanduser("~/Desktop"), title='hello', filetypes=(('qf', '*.qf'), ('all', '*.*')))), 
             bg='#8080ff', fg='black', width=13, height=3, bd=0, font=('微軟正黑體', 13)).pack(side=LEFT, pady=(40, 0), padx=5)
